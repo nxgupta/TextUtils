@@ -1,9 +1,8 @@
-import React, { useState } from "react"
+import {useState} from 'react'
 
 export default function TextForm(props){
     function handleChange(event){
         setText(event.target.value);
-        setCount(len());
     }
     function handleUpperCase(event){
         setText(text.toUpperCase())
@@ -23,17 +22,12 @@ export default function TextForm(props){
         navigator.clipboard.writeText(copiedText.value)
         props.handleAlert('Text Copied!','success')
     }
-    function len(){
-        let arr=text.split(/[ ]+/)
-        return arr.length;
-    }
     function handleSpaces(){
         let arr=text.split(/[ ]+/)
         setText(arr.join(" "))
         props.handleAlert('Extra spaces removed!','success')
     }
     const[text, setText] = useState(""); // return array;
-    const[count, setCount] = useState(0);
     return(
         <>
         <div className="mb-3">
@@ -47,8 +41,8 @@ export default function TextForm(props){
         <button className='btn btn-primary mx-1 my-1' onClick={handleSpaces}>Remove Extra Spaces</button>
         <div className="my-3" style={props.mode==='dark'?{color:"white"}:null}>
             <h3>Your Text Summary</h3>
-            <div>{text.length===0?0:count} words and {text.length} characters</div>
-            <div>Reading time: {text.length===0?0:(text.split(' ').length)*0.005} mins</div>
+            <div>{text.split(" ").filter(ele=>ele.length!==0).length} words and {text.length} characters</div>
+            <div>Reading time: {text.length===0?0:(text.split(" ").filter(ele=>ele.length!==0).length)*0.005} mins</div>
             <h3 className="my-2">Preview</h3>
             <p>{text.length>0?text:'TextBox is Empty'}</p>
         </div>

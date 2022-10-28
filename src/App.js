@@ -1,9 +1,9 @@
 import { useState } from "react";
 import Navbar from "./components/Navbar";
 import TextForm from "./components/TextForm";
-import Alert from "./components/Alert";
 import About from "./components/About";
 import {BrowserRouter,Routes,Route} from 'react-router-dom'
+import {useSnackbar} from 'notistack';
 
 function App() {
   /*----------------------------------------------------------Dark/Light Mode-----------------------------------------*/
@@ -11,27 +11,21 @@ function App() {
     if (myMode === "light") {
       setMyMode("dark");
       document.body.style.backgroundColor = "#212529";
-      showAlert("Dark Mode Enabled", "light");
+      alert("Dark Mode Enabled", "info");
     } else {
       setMyMode("light");
       document.body.style.backgroundColor = "white";
-      showAlert("Light Mode Enabled", "dark");
+      alert("Light Mode Enabled", "info");
     }
   };
 
   const [myMode, setMyMode] = useState("light");
 
   /*--------------------------------------------------------Alert----------------------------------------------------*/
-  function showAlert(message, type) {
-    setAlert({
-      message: message,
-      type: type,
-    });
-    setTimeout(() => {
-      setAlert(null);
-    }, 2000);
-  }
-  const [alert, setAlert] = useState(null);
+  const {enqueueSnackbar}= useSnackbar();
+  function alert(message,type) {
+            enqueueSnackbar(message, {variant:type,preventDuplicate:true,autoHideDuration: 1000})
+}
   return (
     <>
       <BrowserRouter>
@@ -41,10 +35,9 @@ function App() {
             mode={myMode}
             handleMode={modeToggle}
           />
-          <Alert alert={alert} />
           <div className="container">
             <Routes>
-              <Route exact path='/' element={<TextForm heading={'Enter the text for formatting'} mode={myMode} handleAlert={showAlert}/>} />
+              <Route exact path='/' element={<TextForm heading={'Enter the text for formatting'} mode={myMode} handleAlert={alert}/>} />
               <Route path='/about' element={<About mode={myMode} />}/>
             </Routes>
           </div>
