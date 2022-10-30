@@ -23,8 +23,9 @@ function App() {
 
   /*--------------------------------------------------------Alert----------------------------------------------------*/
   const {enqueueSnackbar}= useSnackbar();
-  function alert(message,type) {
-            enqueueSnackbar(message, {variant:type,preventDuplicate:true,autoHideDuration: 1000})
+  function alert(message,type,data) {
+            if(data!=='') enqueueSnackbar(message, {variant:type,preventDuplicate:true,autoHideDuration: 1000})
+            else enqueueSnackbar('TextBox is Empty', {variant:'warning',preventDuplicate:true,autoHideDuration: 1000})
 }
   return (
     <>
