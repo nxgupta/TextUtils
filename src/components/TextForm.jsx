@@ -16,10 +16,8 @@ export default function TextForm(props){
         setText("")
         props.handleAlert('Text Cleard!','success')
     }
-    function handleCopy(){
-        let copiedText=document.getElementById('textForm')
-        copiedText.select(); 
-        navigator.clipboard.writeText(copiedText.value)
+    function handleCopy(){ 
+        navigator.clipboard.writeText(text)
         props.handleAlert('Text Copied!','success')
     }
     function handleSpaces(){
@@ -41,7 +39,7 @@ export default function TextForm(props){
         <button className='btn btn-primary mx-1 my-1' onClick={handleSpaces}>Remove Extra Spaces</button>
         <div className="my-3" style={props.mode==='dark'?{color:"white"}:null}>
             <h3>Your Text Summary</h3>
-            <div>{text.split(" ").filter(ele=>ele.length!==0).length} words and {text.length} characters</div>
+            <div>{text.split(/\s+/).filter(ele=>ele.length!==0).length} words and {text.length} characters</div>
             <div>Reading time: {text.length===0?0:(text.split(" ").filter(ele=>ele.length!==0).length)*0.005} mins</div>
             <h3 className="my-2">Preview</h3>
             <p>{text.length>0?text:'TextBox is Empty'}</p>
